@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  web:
+    build: ./nginx # Encontra o arquivo Dockerfile automaticamente
+    depends_on:
+     - app
+    ports:
+      - 80:80
+  db:
+    image: postgres # busca imagem do registry
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - 5432 # porta externa será add automaticamente
+  app:
+    build:
+      context: ./rails_app
+      dockerfile: Dockerfile
+    environment: 
+      - RAILS_ENV=production
+    volumes:
+      - ./rails_app:/rails_app
+    links:
+      - db # host in archive database.yml
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    command:
+      - /bin/sh
+      - -c
+      - |
+        rm -rf tmp/pids
+        bundle exec rake db:prepare
+        bundle exec rails server -b 0.0.0.0 -p 3000
