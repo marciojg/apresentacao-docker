@@ -11,10 +11,14 @@
 - docker exec -it <container id / name> /bin/bash
 - cat /etc/os-release
 - curl -i localhost:49160
-- docker run -p 123:8080 devel/node-web-app
+- docker run -p 1234:8080 devel/node-web-app
 - docker stop <container id / name>
 
 ## Extra
+
+# docker build . -t devel/node-web-app:123
+# docker push $IMAGE
+# docker run -p 1234:8080 -d devel/node-web-app:123
 
 # docker rmi devel/node-web-app:latest
 

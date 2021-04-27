@@ -1,7 +1,5 @@
 # [Imagem customizada] [Base Dockerfile]
 # [https://hub.docker.com/_/node] [Cache] [Download automático]
-# [<imagem>:<tag>]
-# Lembrar de apagar a imagem
 FROM node:14
 
 # Create app directory
@@ -24,6 +22,3 @@ EXPOSE 8080
 # https://docs.docker.com/engine/reference/builder/#cmd
 # [Comando único] [Comando final] [Representa a "saúde" do container]
 CMD [ "node", "server.js" ]
-
-# Container nasce pra morrer
-# Não guarda estado

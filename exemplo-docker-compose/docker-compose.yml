@@ -1,12 +1,6 @@
 version: '3'
 
 services:
-  web:
-    build: ./nginx # Encontra o arquivo Dockerfile automaticamente
-    depends_on:
-     - app
-    ports:
-      - 80:80
   db:
     image: postgres # busca imagem do registry
     environment: 
@@ -22,7 +16,7 @@ services:
       context: ./rails_app
       dockerfile: Dockerfile
     environment: 
-      - RAILS_ENV=production
+      - RAILS_ENV=development
     volumes:
       - ./rails_app:/rails_app
     links:
@@ -38,3 +32,11 @@ services:
         rm -rf tmp/pids
         bundle exec rake db:prepare
         bundle exec rails server -b 0.0.0.0 -p 3000
+  web:
+    build: ./nginx # Encontra o arquivo Dockerfile automaticamente
+    links:
+      - app
+    depends_on:
+      - app
+    ports:
+      - 80:80
