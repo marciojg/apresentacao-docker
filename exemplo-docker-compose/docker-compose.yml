@@ -11,6 +11,8 @@ services:
       - ./postgres:/var/lib/postgresql/data
     ports:
       - 5432 # porta externa será add automaticamente
+    networks: 
+      - backend-network
   app:
     build:
       context: ./rails_app
@@ -23,6 +25,9 @@ services:
       - db # host in archive database.yml
     depends_on:
       - db
+    networks: 
+      - backend-network
+      - frontend-network
     stdin_open: true
     tty: true
     command:
@@ -40,3 +45,9 @@ services:
       - app
     ports:
       - 80:80
+    networks: 
+      - frontend-network
+
+networks:
+  frontend-network:
+  backend-network:
